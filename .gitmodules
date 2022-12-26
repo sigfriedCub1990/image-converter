@@ -1,0 +1,6 @@
+[submodule "frontend"]
+	path = frontend
+	url = ./frontend
+[submodule "processing-microservice"]
+	path = processing-microservice
+	url = ./processing-microservice
