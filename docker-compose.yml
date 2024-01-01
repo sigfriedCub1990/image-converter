@@ -1,0 +1,37 @@
+services:
+  frontend:
+    image: node:18-alpine
+    command: sh -c "npm install && npm start"
+  image-service:
+    image: node:18-alpine
+    command: sh -c "npm install && npm start"
+    depends_on:
+      - queue
+  db:
+    container_name: monguito
+    image: mongo
+    environment:
+      MONGO_INITDB_DATABASE: photoservice
+    ports:
+      - "127.0.0.1:27017:27017"
+    volumes:
+      - "${MONGODB_VOLUME_DIR:-./mongo}:/var/lib/mongodb"
+  localstack:
+    container_name: "${LOCALSTACK_DOCKER_NAME-localstack_main}"
+    image: localstack/localstack
+    command: sh -c "/usr/local/bin/init.sh && exec myexecutable"
+    ports:
+      - "127.0.0.1:4566:4566" # LocalStack Gateway
+      - "127.0.0.1:4510-4559:4510-4559" # external services port range
+    environment:
+      - DEBUG=${DEBUG-}
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    volumes:
+      - "./localstack/init-aws.sh:/etc/localstack/init/ready.d/init-aws.sh" # Read hook
+      - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+  queue:
+    container_name: queue
+    image: redis
+    ports:
+      - "127.0.0.1:6379:6379"
