@@ -1,6 +1,6 @@
-[submodule "frontend"]
-	path = frontend
-	url = ./frontend
-[submodule "processing-microservice"]
-	path = processing-microservice
-	url = ./processing-microservice
+[submodule "image-converter-frontend"]
+	path = image-converter-frontend
+	url = git@github.com:sigfriedCub1990/image-converter-frontend.git
+[submodule "converter-microservice"]
+	path = converter-microservice
+	url = git@github.com:sigfriedCub1990/processing-microservice.git
